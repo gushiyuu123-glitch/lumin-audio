@@ -1,0 +1,23 @@
+/* src/styles/lumin-anim.css */
+
+@keyframes lumin-bloom {
+  0%   { filter: blur(0px) brightness(1);   transform: scale(1.03); }
+  50%  { filter: blur(2.5px) brightness(1.05); transform: scale(1.06); }
+  100% { filter: blur(0px) brightness(1);   transform: scale(1.03); }
+}
+
+@keyframes lumin-softflow {
+  0%   { opacity: 0.16; }
+  50%  { opacity: 0.26; }
+  100% { opacity: 0.16; }
+}
+
+@keyframes lumin-veil {
+  0%   { opacity: 0.22; transform: translateY(0px); }
+  50%  { opacity: 0.32; transform: translateY(-6px); }
+  100% { opacity: 0.22; transform: translateY(0px); }
+}
+
+.animate-lumin-bloom   { animation: lumin-bloom 18s ease-in-out infinite; }
+.animate-lumin-softflow{ animation: lumin-softflow 14s ease-in-out infinite; }
+.animate-lumin-veil    { animation: lumin-veil 12s ease-in-out infinite; }

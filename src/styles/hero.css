@@ -1,0 +1,152 @@
+/* =========================================================
+   Ultra Smooth — Hero Rendering Final (Optimized by Noa)
+========================================================= */
+
+/* ［1］GSAPアニメ用：不要な計算を最小化し最速に */
+.hero-copy > * {
+  will-change: opacity, transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* セクション全体：Apple式「完全開放レンダリング」 */
+section {
+  contain: layout style;         /* ← 完全解除すると逆にメモリ圧が上がるので最適値へ */
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: opacity, transform;
+}
+
+/* =========================================================
+   Ripple Base — “薄膜の呼吸” 最適化
+========================================================= */
+
+.ripple-center,
+.ripple-local {
+  pointer-events: none;
+
+  /* Apple式：白銀の“にじむ膜” */
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.07) 36%,
+    rgba(255, 255, 255, 0.03) 58%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  /* blur の力を少し弱めて階調を美しく */
+  filter: blur(42px);
+
+  opacity: 0.12;
+
+  /* アニメ精度 */
+  will-change: opacity, transform, filter;
+  transform-origin: center;
+  mix-blend-mode: normal;
+  transition: opacity 0.35s ease, transform 0.45s ease;
+}
+
+/* 個別波紋は薄く（3D感の綺麗な抑揚） */
+.ripple-local {
+  opacity: 0.09;
+}
+
+/* Apple式 “空気の脈動” */
+@keyframes luminRipple {
+  0% {
+    transform: scale(0.94);
+    opacity: 0.10;
+  }
+  50% {
+    transform: scale(1.10);
+    opacity: 0.15; /* ← 高すぎると下品になるので調整 */
+  }
+  100% {
+    transform: scale(0.94);
+    opacity: 0.10;
+  }
+}
+
+/* =========================================================
+   Dior Light Beam — 立体を邪魔しない“縦光”
+========================================================= */
+
+.lumin-beam {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.4px;
+  height: 100%;
+  mix-blend-mode: screen;
+  will-change: opacity, filter;
+}
+
+/* 芯ビーム（強すぎる光を抑え高級感へ） */
+.beam-1 {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.32),
+    rgba(255,255,255,0.10),
+    transparent
+  );
+  filter: blur(6px);
+  opacity: 0.34;
+}
+
+/* 広がりビーム */
+.beam-2 {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.06),
+    transparent
+  );
+  filter: blur(16px);
+  opacity: 0.24;
+}
+
+/* Air Layer（空気の“白気配”） */
+.beam-3 {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.09),
+    rgba(255,255,255,0.03),
+    transparent
+  );
+  filter: blur(26px);
+  opacity: 0.16;
+}
+
+/* =========================================================
+   Serif — High-End Typography
+========================================================= */
+.font-title-2 {
+  font-family: "Cormorant SC", serif;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================
+   Header Mask — 超薄膜（白銀仕様）
+========================================================= */
+header {
+  pointer-events: auto;
+
+  /* Apple式ヘッダーの薄膜化（境界を消す） */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+
+  backdrop-filter: blur(14px);
+  opacity: 0.96;
+}

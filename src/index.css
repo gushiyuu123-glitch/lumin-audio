@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Lümin Audio — GLOBAL TOKENS（白銀版・完全最適化）
+============================================================ */
+:root {
+  /* ===============================
+       FONT TOKENS
+  =============================== */
+  --font-eng: "Inter", sans-serif;
+  --font-title: "Cormorant Garamond", serif;
+  --font-jp: "Noto Sans JP", sans-serif;
+
+  /* ===============================
+       COLOR TOKENS（Apple White Silver）
+  =============================== */
+
+  /* Base Silver-White */
+  --silver-apple-0: #F7F8FA;   /* ← 最も白銀・Apple背景の基準 */
+  --silver-apple-1: #E5E7EB;   /* ← 薄影（AirPods / Mac Studio白影） */
+  --silver-apple-2: #C7C8CE;   /* ← 少し金属味のあるグレー */
+
+  /* Accent Gold (ほのかに入れる程度) */
+  --gold-silver: #E9DCCF;
+
+  /* Text */
+  --text-main: rgba(18, 20, 24, 0.92); /* 濃いグレー（黒は使わない） */
+  --text-sub: rgba(22, 24, 28, 0.55);  /* 控えめな情報用 */
+
+  /* Lines（白銀背景向けに調整） */
+  --line-12: rgba(0, 0, 0, 0.12);
+  --line-18: rgba(0, 0, 0, 0.18);
+  --line-28: rgba(0, 0, 0, 0.28);
+
+  /* Air Layers（薄膜・Appleの空気） */
+  --air-0: rgba(255, 255, 255, 0.32);
+  --air-1: rgba(255, 255, 255, 0.18);
+  --air-2: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   GLOBAL RESET（Apple × Lümin向け最適化）
+============================================================ */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   BODY（完全白銀背景 × Apple質感の最適化）
+============================================================ */
+body {
+  font-family: var(--font-eng), var(--font-jp);
+  background: var(--silver-apple-0) !important;
+  color: var(--text-main);
+
+  /* ここ！！ 削除（fixed が壊れる）*/
+  /* transform-style: preserve-3d; */
+
+  backface-visibility: hidden;
+  overscroll-behavior: none;
+}
+
+
+/* ============================================================
+   LÜMIN GLOBAL TYPO
+   （細く静かで高級なタイトル表示）
+============================================================ */
+.font-title-2 {
+  font-family: var(--font-title);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   LÜMIN — BLOOM（背景画像の静かな呼吸）
+============================================================ */
+@keyframes lumin-bloom {
+  0% {
+    filter: blur(0px) brightness(1) hue-rotate(0deg);
+    transform: scale(1.02);
+  }
+  50% {
+    filter: blur(3px) brightness(1.03) hue-rotate(1.5deg);
+    transform: scale(1.03);
+  }
+  100% {
+    filter: blur(0px) brightness(1) hue-rotate(0deg);
+    transform: scale(1.02);
+  }
+}
+
+/* ============================================================
+   LÜMIN — SOFT FLOW（薄膜のゆらぎ）
+============================================================ */
+@keyframes lumin-softflow {
+  0% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0.18;
+  }
+}
+
+/* ============================================================
+   LÜMIN — VEIL（白銀ベールの呼吸）
+============================================================ */
+@keyframes lumin-veil {
+  0% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.33;
+  }
+  100% {
+    opacity: 0.22;
+  }
+}
+
+/* ============================================================
+   アニメ適用クラス（速度をゆっくりに、世界観の静けさ強化）
+============================================================ */
+.animate-lumin-bloom {
+  animation: lumin-bloom 24s ease-in-out infinite;
+}
+
+.animate-lumin-softflow {
+  animation: lumin-softflow 22s ease-in-out infinite;
+}
+
+.animate-lumin-veil {
+  animation: lumin-veil 18s ease-in-out infinite;
+}
+.lumin-text-plate {
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 15, 20, 0.015),
+    rgba(10, 15, 20, 0.025),
+    rgba(10, 15, 20, 0.015)
+  );
+  backdrop-filter: blur(2px);
+}
+.hero-3d {
+  transform-style: preserve-3d;
+}
+html { scroll-behavior: smooth; }
