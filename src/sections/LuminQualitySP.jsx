@@ -161,7 +161,7 @@ export default function LuminQualitySP() {
             pr-1
           "
         >
-          音が日常に馴染むとき、  
+          音が日常に馴染むとき、<br></br>  
           プロダクトは初めて〈世界観〉になる。
         </p>
       </div>

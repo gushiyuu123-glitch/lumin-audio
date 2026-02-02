@@ -90,26 +90,30 @@ export default function HeroSP() {
         }}
       />
 
-      {/* ===== Hero Copy ===== */}
+      {/* ===== Hero Copy（改行対応版） ===== */}
       <div
         className="
           relative z-10 text-center
           px-6 mb-10
-          tracking-[0.22em]
         "
       >
-        <p className="text-[0.75rem] text-black/45 font-eng leading-[2]">
+        {/* LABEL */}
+        <p className="text-[0.75rem] text-black/45 font-eng leading-[2] tracking-[0.22em]">
           LÜMIN AUDIO — SOUND FORMS THE WORLD
         </p>
 
+        {/* ★ 改行対応 TITLE */}
         <h1
           className="
-            mt-4 text-[2.2rem]
+            mt-4
+            text-[2.2rem]
             font-title-2 text-black/80
-            leading-[1.28]
+            leading-[1.32]
+            tracking-[0.14em]
+            whitespace-pre-line
           "
         >
-          音が、世界を変える。
+          {`音が、世界を\nデザインする。`}
         </h1>
       </div>
 

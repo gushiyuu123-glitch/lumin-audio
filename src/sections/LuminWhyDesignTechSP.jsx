@@ -10,7 +10,7 @@ export default function LuminWhyDesignTechSP() {
 
     const q = gsap.utils.selector(sectionRef.current);
 
-    // WHY カード（出現のみ・blur弱め）
+    // WHY カード
     gsap.fromTo(
       q(".why-card-sp"),
       { opacity: 0, y: 20, filter: "blur(3px)" },
@@ -51,7 +51,7 @@ export default function LuminWhyDesignTechSP() {
         px-6 py-[14vh]
       "
     >
-      {/* BG / SILVER FILM */}
+      {/* BG FILM */}
       <div
         aria-hidden
         className="
@@ -70,17 +70,23 @@ export default function LuminWhyDesignTechSP() {
             WHY LÜMIN HEADPHONE — LM-H1 SERIES
           </p>
 
-          <h2 className="font-title-2 text-[1.85rem] tracking-[0.14em] text-[#0F0F10]/85 leading-[1.4]">
-            体験を決める3つの“哲学”
+          <h2
+            className="
+              font-title-2 text-[1.85rem]
+              tracking-[0.14em]
+              text-[#0F0F10]/85
+              leading-[1.4]
+              whitespace-pre-line
+            "
+          >
+            体験を決める{"\n"}3つの“哲学”
           </h2>
         </div>
 
-        {/* ===========================
-            WHY CARDS（縦並び）
-        ============================ */}
+        {/* WHY CARDS */}
         <div className="flex flex-col gap-10 mb-20">
           <WhyCardSP
-            title="WHY — 選ばれる理由"
+            title={`WHY —\n選ばれる理由`}
             subtitle="Reason to Choose LÜMIN"
             body={
               <>
@@ -95,7 +101,7 @@ export default function LuminWhyDesignTechSP() {
           />
 
           <WhyCardSP
-            title="TECHNOLOGY — 精密音響工学"
+            title={`TECHNOLOGY —\n精密音響工学`}
             subtitle="Precision Acoustic Engineering"
             body={
               <>
@@ -110,7 +116,7 @@ export default function LuminWhyDesignTechSP() {
           />
 
           <WhyCardSP
-            title="DESIGN — 素材と色の美学"
+            title={`DESIGN —\n素材と色の美学`}
             subtitle="Material & Color Aesthetics"
             body={
               <>
@@ -124,13 +130,11 @@ export default function LuminWhyDesignTechSP() {
           />
         </div>
 
-        {/* ===========================
-            SPEC（縦2カード）
-        ============================ */}
+        {/* SPEC CARDS */}
         <div className="flex flex-col gap-12">
 
           <SpecCardSP
-            title="LÜMIN HEADPHONE — 詳細スペック"
+            title={`LÜMIN HEADPHONE\n— 詳細スペック`}
             rows={[
               ["モデル", "LM-H1 シリーズ"],
               ["ドライバー", "40mm LÜMIN Dynamic Core"],
@@ -146,7 +150,7 @@ export default function LuminWhyDesignTechSP() {
           />
 
           <SpecCardSP
-            title="LÜMIN EARPHONE — 詳細スペック"
+            title={`LÜMIN EARPHONE\n— 詳細スペック`}
             rows={[
               ["モデル", "LM-E1 シリーズ"],
               ["ドライバー", "12mm LÜMIN Micro-Dynamic"],
@@ -165,7 +169,6 @@ export default function LuminWhyDesignTechSP() {
     </section>
   );
 }
-
 
 /* ============================================================
    WHY CARD（SP）
@@ -198,9 +201,18 @@ function WhyCardSP({ title, subtitle, body, icon }) {
       </div>
 
       {/* TITLE */}
-      <h3 className="font-title-2 text-[1.35rem] tracking-[0.12em] text-[#0F0F10]/85 mb-3 text-center">
+      <h3
+        className="
+          font-title-2 text-[1.35rem]
+          tracking-[0.12em]
+          text-[#0F0F10]/85
+          mb-3 text-center
+          whitespace-pre-line
+        "
+      >
         {title}
       </h3>
+
       <p className="text-center text-[0.72rem] tracking-[0.20em] text-[#0F0F10]/45 mb-6">
         {subtitle}
       </p>
@@ -211,7 +223,6 @@ function WhyCardSP({ title, subtitle, body, icon }) {
     </div>
   );
 }
-
 
 /* ============================================================
    SPEC CARD（SP）
@@ -228,7 +239,15 @@ function SpecCardSP({ title, rows }) {
         px-8 py-10
       "
     >
-      <h3 className="font-title-2 text-[1.55rem] tracking-[0.12em] text-[#0F0F10]/85 mb-6 text-center">
+      <h3
+        className="
+          font-title-2 text-[1.55rem]
+          tracking-[0.12em]
+          text-[#0F0F10]/85
+          mb-6 text-center
+          whitespace-pre-line
+        "
+      >
         {title}
       </h3>
 

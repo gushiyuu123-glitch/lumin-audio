@@ -39,23 +39,23 @@ export default function EarphoneHeroSP({
     imgRefs.current.forEach((img, i) => {
       if (!img) return;
 
-      // 登場：PCより軽め・距離短く
+      // 登場（控えめ・上質）
       gsap.fromTo(
         img,
-        { opacity: 0, y: 50, filter: "blur(12px)" },
+        { opacity: 0, y: 40, filter: "blur(10px)" },
         {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          duration: 1.45 + i * 0.18,
+          duration: 1.35 + i * 0.14,
           ease: "power2.out",
         }
       );
 
-      // 呼吸：揺れ幅 SP 用に調整（長く・ゆるく）
+      // 呼吸アニメ
       gsap.to(img, {
-        y: -14,
-        duration: 7.8 + i * 0.4,
+        y: -12,
+        duration: 7 + i * 0.35,
         ease: "sine.inOut",
         repeat: -1,
         yoyo: true,
@@ -74,23 +74,23 @@ export default function EarphoneHeroSP({
         overflow-hidden
       "
     >
-      {/* 背景白銀 */}
+      {/* 背景白銀（明度少し落として可読性UP） */}
       <div
         aria-hidden
         className="
           absolute inset-0
           bg-gradient-to-b
-          from-white via-[#f0f2f5]/70 to-[#f6f7f9]
-          opacity-[0.96]
+          from-[#ffffff] via-[#f3f5f7]/70 to-[#f7f8fa]
+          opacity-[0.92]
           pointer-events-none
         "
       />
 
-      {/* ノイズ */}
+      {/* noise（干渉しすぎない 0.05） */}
       <div
         aria-hidden
         className="
-          absolute inset-0 opacity-[0.08]
+          absolute inset-0 opacity-[0.05]
           bg-[url('/lumin/noise-fine.png')]
           mix-blend-soft-light
         "
@@ -103,14 +103,14 @@ export default function EarphoneHeroSP({
           className="
             text-[0.75rem]
             tracking-[0.32em]
-            text-[#0F1012]/50
+            text-[#0F1012]/55
           "
         >
           EARPHONE LINE — LÜMIN AIR
         </p>
       </div>
 
-      {/* PRODUCTS (SP: 1列) */}
+      {/* PRODUCTS */}
       <div className="relative z-10 flex flex-col gap-20">
         {models.map((m, i) => (
           <div
@@ -121,16 +121,16 @@ export default function EarphoneHeroSP({
               rounded-3xl overflow-hidden
             "
           >
-            {/* 背景膜（超薄） */}
+            {/* 背景膜（光を弱めた版） */}
             <div
               aria-hidden
               className="
                 absolute inset-0 pointer-events-none
                 bg-gradient-to-br
-                from-[rgba(255,255,255,0.35)]
-                via-[rgba(255,255,255,0.08)]
+                from-[rgba(255,255,255,0.28)]
+                via-[rgba(255,255,255,0.06)]
                 to-transparent
-                blur-[30px]
+                blur-[26px]
               "
             />
 
@@ -141,14 +141,14 @@ export default function EarphoneHeroSP({
               alt={m.name}
               className="
                 w-[82%] max-w-[340px]
-                drop-shadow-[0_26px_70px_rgba(0,0,0,0.18)]
+                drop-shadow-[0_26px_68px_rgba(0,0,0,0.16)]
                 mb-10
                 select-none pointer-events-none
               "
             />
 
-            {/* SHORT */}
-            <p className="text-[#111214]/55 text-[0.82rem] tracking-[0.20em] mb-3 leading-[1.9]">
+            {/* SHORT（視認性を上げて世界観そのまま） */}
+            <p className="text-[#0D0E11]/70 drop-shadow-[0_0_1px_rgba(0,0,0,0.2)] text-[0.82rem] tracking-[0.20em] mb-3 leading-[1.9]">
               {m.short}
             </p>
 
@@ -168,7 +168,7 @@ export default function EarphoneHeroSP({
             </p>
 
             {/* SHIPPING */}
-            <p className="text-[#111214]/30 text-[0.68rem] tracking-[0.22em] mb-6">
+            <p className="text-[#111214]/35 text-[0.68rem] tracking-[0.22em] mb-6">
               送料無料
             </p>
 
@@ -211,9 +211,9 @@ export default function EarphoneHeroSP({
               <span
                 className="
                   absolute inset-0 rounded-full -z-10
-                  bg-gradient-to-r from-transparent via-white/40 to-transparent
-                  opacity-0 blur-[18px]
-                  group-hover:opacity-100 group-hover:blur-[30px]
+                  bg-gradient-to-r from-transparent via-white/35 to-transparent
+                  opacity-0 blur-[16px]
+                  group-hover:opacity-100 group-hover:blur-[26px]
                   transition-all duration-400
                 "
               />
@@ -223,11 +223,13 @@ export default function EarphoneHeroSP({
         ))}
       </div>
 
-      {/* NOTES */}
+      {/* NOTES（視認性を上げた完全版） */}
       <p
         className="
           mt-[10vh]
-          text-[#0D0E11]/55 text-[0.78rem]
+          text-[#0D0E11]/70
+          drop-shadow-[0_0_1px_rgba(0,0,0,0.22)]
+          text-[0.78rem]
           tracking-[0.20em]
           leading-[2]
           text-center

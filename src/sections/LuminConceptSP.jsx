@@ -33,7 +33,7 @@ export default function LuminConceptSP({
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      // 初期値
+      // Initial
       gsap.set(sideRef.current, {
         opacity: 0,
         filter: `blur(${14}px)`,
@@ -53,6 +53,7 @@ export default function LuminConceptSP({
         ],
         { opacity: 0, y: 14, filter: "blur(10px)" }
       );
+
       gsap.set(el.querySelectorAll(".concept-card"), {
         opacity: 0,
         y: 22,
@@ -67,7 +68,7 @@ export default function LuminConceptSP({
             defaults: { ease: "power3.out" },
           });
 
-          // side image（影の気配）
+          // side image
           tl.to(
             sideRef.current,
             {
@@ -147,25 +148,24 @@ export default function LuminConceptSP({
       {/* ===============================
           Side（影の気配）
       =============================== */}
-<img
-  ref={sideRef}
-  src={sideImg}
-  alt=""
-  aria-hidden
-  className="
-    absolute left-1/2
-    -translate-x-[40%]    /* ← 視覚中心へ補正（ここが本質） */
-    top-[6%]
-    w-[80vw] max-w-[420px]
-    pointer-events-none select-none
-    opacity-0
-    mix-blend-multiply
-  "
-  style={{
-    filter: `blur(${T.sideBlur}px)`,
-  }}
-/>
-
+      <img
+        ref={sideRef}
+        src={sideImg}
+        alt=""
+        aria-hidden
+        className="
+          absolute left-1/2
+          -translate-x-[40%]
+          top-[6%]
+          w-[80vw] max-w-[420px]
+          pointer-events-none select-none
+          opacity-0
+          mix-blend-multiply
+        "
+        style={{
+          filter: `blur(${T.sideBlur}px)`,
+        }}
+      />
 
       {/* ===============================
           Wave（周波数の気配）
@@ -211,9 +211,10 @@ export default function LuminConceptSP({
             tracking-[0.14em]
             text-black/80
             leading-[1.42] mb-6
+            whitespace-pre-line
           "
         >
-          音が形を持つとき、<br />美しさは立ち上がる。
+          音が形を持つとき、{"\n"}美しさは立ち上がる。
         </h2>
 
         {/* Vertical Light */}
@@ -229,19 +230,19 @@ export default function LuminConceptSP({
         </div>
 
         {/* ===========================
-            CARDS（1カラム）
+            CARDS
         =========================== */}
         <div className="flex flex-col gap-14">
           <SPConceptCard
-            title="澄みきったクリアリティ"
+            title={`澄みきった\nクリアリティ`}
             body={`濁りを排し、細部まで\n透けるような透明音。`}
           />
           <SPConceptCard
-            title="輪郭まで研ぎ澄ました精度"
+            title={`輪郭まで\n研ぎ澄ました精度`}
             body={`微細な粒立ちまで\n正確に描く高解像サウンド。`}
           />
           <SPConceptCard
-            title="美しさが立ち上がる再現性"
+            title={`美しさが\n立ち上がる再現性`}
             body={`余韻や立体感が\n自然に宿る美の音響デザイン。`}
           />
         </div>
@@ -269,6 +270,7 @@ function SPConceptCard({ title, body }) {
           blur-[24px]
         "
       />
+
       <div className="relative px-4 py-8">
         <h3
           className="
@@ -276,6 +278,7 @@ function SPConceptCard({ title, body }) {
             tracking-[0.10em]
             leading-[1.34]
             text-black/80 mb-4
+            whitespace-pre-line
           "
         >
           {title}
@@ -284,7 +287,8 @@ function SPConceptCard({ title, body }) {
         <p
           className="
             text-[0.95rem] leading-[1.9]
-            text-black/60 whitespace-pre-line
+            text-black/60
+            whitespace-pre-line
           "
         >
           {body}

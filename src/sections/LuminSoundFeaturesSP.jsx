@@ -2,14 +2,6 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-/* ============================================================
-   LÜMIN — SOUND FEATURES（SP 最適化版 100点）
-   - Apple × Dior の白銀世界観を維持しつつ、縦構成へ
-   - 金属サイド画像は "気配" として中央奥に置く
-   - 背景スペクトラムは「音の影」として薄く配置
-   - GSAP は立ち上がりだけ（軽量・破綻防止）
-============================================================ */
-
 export default function LuminSoundFeaturesSP({
   spectrumImg = "/lumin/spectrum1.png",
   microWaveImg = "/lumin/frequency11.png",
@@ -22,8 +14,8 @@ export default function LuminSoundFeaturesSP({
   const textRefs = useRef([]);
 
   /* ============================================================
-     GSAP（SP：立ち上がりだけ / 呼吸なし）
-  ============================================================= */
+     GSAP（SP：立ち上がりのみ）
+  ============================================================ */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -103,11 +95,9 @@ export default function LuminSoundFeaturesSP({
       "
     >
       {/* ============================================================
-          背景（Apple × Diorの白銀）
-      ============================================================= */}
+          BACKGROUND（白銀 × 膜 × 音影）
+      ============================================================ */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
-
-        {/* 薄い金属ノイズ（SP版：強さ 1.8%） */}
         <div
           className="
             absolute inset-0
@@ -117,7 +107,6 @@ export default function LuminSoundFeaturesSP({
           "
         />
 
-        {/* 上：音スペクトラム（影として） */}
         <img
           ref={spectrumRef}
           src={spectrumImg}
@@ -131,7 +120,6 @@ export default function LuminSoundFeaturesSP({
           "
         />
 
-        {/* 下：micro wave（“揺らぎの気配”） */}
         <img
           ref={microRef}
           src={microWaveImg}
@@ -145,7 +133,7 @@ export default function LuminSoundFeaturesSP({
           "
         />
 
-        {/* Dior veil（白膜） */}
+        {/* 白膜 */}
         <div
           className="
             absolute inset-0
@@ -161,10 +149,9 @@ export default function LuminSoundFeaturesSP({
 
       {/* ============================================================
           CONTENT
-      ============================================================= */}
+      ============================================================ */}
       <div className="relative z-10 text-center">
 
-        {/* LABEL */}
         <p
           className="
             lsfsp-label text-[0.72rem]
@@ -176,22 +163,23 @@ export default function LuminSoundFeaturesSP({
           LÜMIN AUDIO — SOUND FEATURES
         </p>
 
-        {/* TITLE */}
+        {/* ★ 改行対応 TITLE（whitespace-pre-line 導入） */}
         <h2
           className="
             lsfsp-title
             font-title-2
-            text-[1.8rem] leading-[1.38]
+            text-[1.8rem] leading-[1.42]
             tracking-[0.14em]
             text-black/85
+            whitespace-pre-line
             mb-16
           "
         >
-          音が“空気の中で立つ”瞬間を、<br />
+          音が“空気の中で立つ”瞬間を、{"\n"}
           ていねいにデザインする。
         </h2>
 
-        {/* SIDE IMAGE（中央奥） */}
+        {/* SIDE IMAGE */}
         <div className="relative w-full flex justify-center mb-20">
           <img
             ref={sideRef}
@@ -231,7 +219,7 @@ export default function LuminSoundFeaturesSP({
 }
 
 /* ============================================================
-   テキストブロック（Apple SPの行間）
+   SP Text（改行 × Apple行間）
 ============================================================ */
 function SPText({ idx, text, refs }) {
   return (
