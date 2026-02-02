@@ -147,22 +147,25 @@ export default function LuminConceptSP({
       {/* ===============================
           Side（影の気配）
       =============================== */}
-      <img
-        ref={sideRef}
-        src={sideImg}
-        alt=""
-        aria-hidden
-        className="
-          absolute left-1/2 -translate-x-1/2 top-[6%]
-          w-[80vw] max-w-[420px]
-          pointer-events-none select-none
-          opacity-0
-          mix-blend-multiply
-        "
-        style={{
-          filter: `blur(${T.sideBlur}px)`,
-        }}
-      />
+<img
+  ref={sideRef}
+  src={sideImg}
+  alt=""
+  aria-hidden
+  className="
+    absolute left-1/2
+    -translate-x-[40%]    /* ← 視覚中心へ補正（ここが本質） */
+    top-[6%]
+    w-[80vw] max-w-[420px]
+    pointer-events-none select-none
+    opacity-0
+    mix-blend-multiply
+  "
+  style={{
+    filter: `blur(${T.sideBlur}px)`,
+  }}
+/>
+
 
       {/* ===============================
           Wave（周波数の気配）

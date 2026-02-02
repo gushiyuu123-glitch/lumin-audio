@@ -244,22 +244,23 @@ useEffect(() => {
         ))}
       </div>
 
-      {/* ===== SERIES NOTES ===== */}
-      <p
-        className="
-          mt-[12vh]
-          text-[#0D0E11]/55
-          text-[0.9rem]
-          tracking-[0.20em]
-          leading-[2]
-          text-center
-          max-w-[900px]
-          px-10
-        "
-      >
-        すべてのモデルは「空気」「静けさ」「密度」という LÜMIN の音響思想に基づき、
-        本来の音が持つ美しさだけを丁寧に残すよう設計されています。
-      </p>
+  {/* ===== SERIES NOTES ===== */}
+<p
+  className="
+    mt-[12vh]
+    text-[#1A1C1F]/60      /* ← ★見える × ノイズに溶けない最適値 */
+    text-[0.9rem]
+    tracking-[0.20em]
+    leading-[2]
+    text-center
+    max-w-[900px]
+    px-10
+  "
+>
+  すべてのモデルは「空気」「静けさ」「密度」という LÜMIN の音響思想に基づき、
+  本来の音が持つ美しさだけを丁寧に残すよう設計されています。
+</p>
+
     </section>
   );
 }

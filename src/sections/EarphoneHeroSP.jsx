@@ -65,7 +65,7 @@ export default function EarphoneHeroSP({
 
   return (
     <section
-      id="earphone"
+      id="earphone-sp"
       className="
         relative w-full 
         bg-[#F8FAFD]

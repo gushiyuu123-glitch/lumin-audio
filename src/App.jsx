@@ -43,7 +43,7 @@ import LuminQualitySP from "./sections/LuminQualitySP";
 import ReviewSectionSP from "./sections/ReviewSectionSP";
 import ContactSectionSP from "./sections/ContactSectionSP";
 import FooterSP from "./components/FooterSP";
-
+import CartPanelSP from "./components/CartPanelSP";
 export default function App() {
   /* ============================================================
      STATE（選択中モデル）
@@ -191,7 +191,7 @@ export default function App() {
       ============================================================ */}
       <div className="block lg:hidden">
         <HeaderSpecialSP />
-
+      <CartPanelSP />
         {/* 1. HERO */}
         <HeroSP />
 

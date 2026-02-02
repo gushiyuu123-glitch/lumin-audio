@@ -154,7 +154,7 @@ export default function HeroSP() {
 
       {/* ===== CTA ===== */}
       <a
-        href="#headphone"
+        href="#earphone-sp"
         className="
           mt-10 px-10 py-3
           border border-black/20

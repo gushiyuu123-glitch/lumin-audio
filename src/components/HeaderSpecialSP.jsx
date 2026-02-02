@@ -20,9 +20,9 @@ export default function HeaderSpecialSP() {
   const beamMain = useRef(null);
   const beamSoft = useRef(null);
 
-  /* ================================================
-     Smooth Scroll（SP用は負荷が軽いのでOK）
-  ================================================= */
+  /* ============================================================
+     Smooth Scroll（SP版は軽量でOK）
+  ============================================================ */
   useEffect(() => {
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
       a.addEventListener("click", (e) => {
@@ -35,13 +35,12 @@ export default function HeaderSpecialSP() {
     });
   }, []);
 
-  /* ================================================
-     GSAP — SP最適化バージョン
-     （負荷を下げて“呼吸”を滑らかに）
-  ================================================= */
+  /* ============================================================
+     GSAP — SP最適化（軽量 × 呼吸）
+  ============================================================ */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      /* -------- ① logoFilm のみループ -------- */
+      // LOGO の光膜
       gsap.to(logoFilmRef.current, {
         x: 10,
         opacity: 0.7,
@@ -51,7 +50,7 @@ export default function HeaderSpecialSP() {
         yoyo: true,
       });
 
-      /* -------- ② Header の scrollTrigger -------- */
+      // Header scroll 追従（微揺れ）
       gsap.to(headerRef.current, {
         y: -1,
         scrollTrigger: {
@@ -62,7 +61,7 @@ export default function HeaderSpecialSP() {
         },
       });
 
-      /* -------- ③ beamMain — scroll 連動 -------- */
+      // Light Beam (main)
       gsap.to(beamMain.current, {
         opacity: 0.38,
         scrollTrigger: {
@@ -73,9 +72,9 @@ export default function HeaderSpecialSP() {
         },
       });
 
-      /* -------- ④ mirror と beamSoft は静止（透明膜） -------- */
+      // 静止膜（soft / mirror）
+      gsap.set(beamSoft.current, { opacity: 0.10 });
       gsap.set(mirrorRef.current, { opacity: 0.12 });
-      gsap.set(beamSoft.current, { opacity: 0.10, scaleY: 1.0 });
     });
 
     return () => ctx.revert();
@@ -85,49 +84,49 @@ export default function HeaderSpecialSP() {
     <header
       ref={headerRef}
       className={` 
-        fixed top-0 left-0 w-full z-[200]
+        fixed top-0 left-0 w-full 
+        z-[150]                          /* ★ PC/SP 調停の基準ライン */
         flex items-center justify-between
         px-6 py-4
 
-        /* ===== SP版：軽い白膜（背景と衝突しない） ===== */
         bg-[rgba(250,250,250,0.55)]
         backdrop-blur-[22px]
         border-b border-[rgba(20,20,25,0.05)]
         shadow-[0_6px_22px_rgba(255,255,255,0.25)]
-
         transition-all duration-300
+
         ${isOpen ? "opacity-0 pointer-events-none" : "opacity-100"}
       `}
     >
       {/* ===================================================
-         LOGO
+          LOGO
       =================================================== */}
       <a
         href="#hero"
         className="
           relative font-title-2 tracking-[0.22em]
           text-[rgba(18,18,22,0.92)]
-          text-[1rem]
-          select-none
+          text-[1rem] select-none
         "
       >
         LÜMIN
 
+        {/* 光膜（完全背面へ固定） */}
         <span
           ref={logoFilmRef}
           aria-hidden
           className="
-            absolute inset-0 -z-10
+            absolute inset-0
             bg-gradient-to-r
             from-white/20 via-white/70 to-white/20
-            blur-[20px]
-            rounded-full opacity-[0.5]
+            blur-[20px] rounded-full opacity-[0.5]
+            -z-10
           "
         />
       </a>
 
       {/* ===================================================
-         CART ICON
+          CART ICON
       =================================================== */}
       <div
         onClick={() => setIsOpen(true)}
@@ -155,19 +154,20 @@ export default function HeaderSpecialSP() {
       </div>
 
       {/* ===================================================
-         BEAMS（静止 × ScrollTrigger）
+          BEAMS（すべて z-[0] 必須）
       =================================================== */}
       <div
         ref={beamMain}
         className="
           absolute left-1/2 top-0 -translate-x-1/2
-          w-[1px] h-full
+          w-[1px] h-full 
           bg-gradient-to-b
           from-[rgba(235,240,255,0.55)]
           via-[rgba(200,205,230,0.18)]
           to-transparent
           blur-[3px]
           opacity-[0.26]
+          z-[0]                 /* ★ カートより背面 */
         "
       />
 
@@ -175,18 +175,19 @@ export default function HeaderSpecialSP() {
         ref={beamSoft}
         className="
           absolute left-1/2 top-0 -translate-x-1/2
-          w-[5px] h-full        /* ← SP最適化 */
+          w-[5px] h-full
           bg-gradient-to-b
           from-[rgba(255,255,255,0.20)]
           via-[rgba(230,235,255,0.08)]
           to-transparent
           blur-[26px]
           opacity-[0.10]
+          z-[0]                 /* ★ カートより背面 */
         "
       />
 
       {/* ===================================================
-         Mirror Floor（薄膜）
+          Mirror Floor（薄膜）
       =================================================== */}
       <div
         ref={mirrorRef}
@@ -198,6 +199,7 @@ export default function HeaderSpecialSP() {
           to-transparent
           blur-[18px]
           opacity-[0.10]
+          z-[0]                 /* ★ カートより背面 */
         "
       />
     </header>
