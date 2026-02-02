@@ -4,19 +4,19 @@ import gsap from "gsap";
 import { LUMIN_TOKENS as T } from "../styles/luminTokens";
 
 /* ============================================================
-   LÜMIN — WHITE SILVER FOOTER
-   (Apple Watch Ultra × Dior × 拡張ミニマル)
+   LÜMIN — WHITE SILVER FOOTER（著作権入り 完全版）
+   Apple × Dior × 静けさの白銀世界観を統合
 ============================================================ */
 
 /* ==============================
-   Social Icons（Code-based）
+   SOCIAL ICONS
 ============================== */
 function IconWrap({ children, innerRef }) {
   return (
     <div
       ref={innerRef}
       className={`
-        w-[34px] h-[34px] rounded-full relative
+        w-[34px] h-[34px] rounded-full
         flex items-center justify-center
         transition-all duration-700
         hover:scale-[1.08]
@@ -28,22 +28,19 @@ function IconWrap({ children, innerRef }) {
   );
 }
 
-function IconTwitter({ className }) {
+function IconTwitter() {
   return (
-    <div className={`relative ${className}`}>
-      {/* Outline */}
-      <svg
-        viewBox="0 0 24 24"
-        className="absolute inset-0 p-[6px]"
-        stroke="rgba(30,30,35,0.75)"
-        strokeWidth="1.3"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M20 7.5c-.7.3-1.4.5-2.1.6a3.5 3.5 0 0 0-6 3v.6C9.3 11.5 7 10.4 5.3 8.7c-.5.9-.3 2 .5 2.7a3.5 3.5 0 0 1-1.6-.4c0 1.3 1 2.5 2.4 2.8-.5.1-1 .1-1.4 0 .4 1.1 1.5 2 2.8 2A7 7 0 0 1 4 17a10 10 0 0 0 5.4 1.6c6.5 0 10-5.6 10-10.4v-.5c.7-.5 1.3-1.1 1.6-1.8z" />
-      </svg>
-    </div>
+    <svg
+      viewBox="0 0 24 24"
+      className="w-[22px] h-[22px]"
+      stroke="rgba(30,30,35,0.75)"
+      strokeWidth="1.2"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 7.5c-.7.3-1.4.5-2.1.6a3.5 3.5 0 0 0-6 3v.6C9.3 11.5 7 10.4 5.3 8.7c-.5.9-.3 2 .5 2.7a3.5 3.5 0 0 1-1.6-.4c0 1.3 1 2.5 2.4 2.8-.5.1-1 .1-1.4 0 .4 1.1 1.5 2 2.8 2A7 7 0 0 1 4 17a10 10 0 0 0 5.4 1.6c6.5 0 10-5.6 10-10.4v-.5c.7-.5 1.3-1.1 1.6-1.8z" />
+    </svg>
   );
 }
 
@@ -85,7 +82,7 @@ export default function Footer() {
   const footerRef = useRef(null);
   const socialRef = useRef([]);
 
-  /* ----- GSAP 呼吸 ---- */
+  /* ----- GSAP 呼吸（弱め・上質感） ---- */
   useEffect(() => {
     gsap.to(footerRef.current, {
       opacity: 0.97,
@@ -139,10 +136,7 @@ export default function Footer() {
       {/* 背景ノイズ */}
       <div
         aria-hidden
-        className={`
-          absolute inset-0 pointer-events-none mix-blend-soft-light
-          ${T.silver.noise}
-        `}
+        className={`absolute inset-0 pointer-events-none mix-blend-soft-light ${T.silver.noise}`}
       />
 
       {/* Top Glow */}
@@ -162,7 +156,7 @@ export default function Footer() {
         </h2>
       </div>
 
-      {/* GRID（PC/SP 自動） */}
+      {/* GRID */}
       <div
         className="
           relative z-10
@@ -174,14 +168,7 @@ export default function Footer() {
       >
         {columns.map((col, i) => (
           <div key={i}>
-            <h3
-              className="
-                text-[0.78rem]
-                tracking-[0.26em]
-                text-[#0F1012]/58
-                mb-6 
-              "
-            >
+            <h3 className="text-[0.78rem] tracking-[0.26em] text-[#0F1012]/58 mb-6">
               {col.title}
             </h3>
 
@@ -192,8 +179,7 @@ export default function Footer() {
                     href="#"
                     className="
                       text-[0.9rem] text-[#0F1012]/55
-                      hover:text-[#0F1012]/90
-                      transition-all
+                      hover:text-[#0F1012]/90 transition-all
                     "
                   >
                     {item}
@@ -220,7 +206,7 @@ export default function Footer() {
         </IconWrap>
       </div>
 
-      {/* Bottom Glow */}
+      {/* BOTTOM GLOW */}
       <div
         aria-hidden
         className={`
@@ -230,10 +216,10 @@ export default function Footer() {
         `}
       />
 
-      {/* COPYRIGHT */}
+      {/* COPYRIGHT（★正式対応） */}
       <div className="relative z-10 flex flex-col items-center gap-4">
         <p className="text-[0.74rem] text-[#0F1012]/40 tracking-[0.14em]">
-          © {new Date().getFullYear()} LÜMIN — AUDIO DESIGN
+          © {new Date().getFullYear()} LÜMIN — All Rights Reserved.
         </p>
 
         <a

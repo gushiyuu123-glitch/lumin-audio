@@ -4,8 +4,7 @@ import gsap from "gsap";
 import { LUMIN_TOKENS as T } from "../styles/luminTokens";
 
 /* ============================================================
-    LÜMIN — WHITE SILVER FOOTER (SP 最適化)
-    世界観の“静けさ × 精密さ”をそのままスマホへ
+    LÜMIN — WHITE SILVER FOOTER (SP 最適化 / 著作権入り)
 ============================================================ */
 
 function IconWrap({ children, innerRef }) {
@@ -77,9 +76,9 @@ export default function FooterSP() {
   const footerRef = useRef(null);
   const socialRef = useRef([]);
 
-  /* -------------------------------
-      GSAP “呼吸"（SPはかなり弱く）
-  -------------------------------- */
+  /* ----------------------------------------------------
+        GSAP 呼吸（SPはかなり弱い “微揺れ”）
+  ----------------------------------------------------- */
   useEffect(() => {
     gsap.to(footerRef.current, {
       opacity: 0.98,
@@ -112,13 +111,13 @@ export default function FooterSP() {
         overflow-hidden
       "
     >
-      {/* BG Noise */}
+      {/* 背景ノイズ */}
       <div
         aria-hidden
         className={`absolute inset-0 mix-blend-soft-light ${T.silver.noise}`}
       />
 
-      {/* Top Glow */}
+      {/* 上部グロウ */}
       <div
         aria-hidden
         className="
@@ -135,7 +134,7 @@ export default function FooterSP() {
         </h2>
       </div>
 
-      {/* COLUMN LIST（SP版：2カラム × 2段） */}
+      {/* 2カラム × 2段 */}
       <div
         className="
           relative z-10
@@ -143,23 +142,11 @@ export default function FooterSP() {
           mb-16
         "
       >
-        {[
-          {
-            title: "PRODUCTS",
-            items: ["Lümin Max", "Lümin Air", "Lümin Dock", "Accessories"],
-          },
-          {
-            title: "SUPPORT",
-            items: ["Contact", "Warranty", "User Guide", "FAQ"],
-          },
-          {
-            title: "SOUND",
-            items: ["Acoustic Philosophy", "Frequency Studio", "Whitepaper"],
-          },
-          {
-            title: "ABOUT",
-            items: ["Brand Story", "Design Language", "Creators"],
-          },
+        {[ 
+          { title: "PRODUCTS", items: ["Lümin Max", "Lümin Air", "Lümin Dock", "Accessories"] },
+          { title: "SUPPORT", items: ["Contact", "Warranty", "User Guide", "FAQ"] },
+          { title: "SOUND", items: ["Acoustic Philosophy", "Frequency Studio", "Whitepaper"] },
+          { title: "ABOUT", items: ["Brand Story", "Design Language", "Creators"] },
         ].map((col, i) => (
           <div key={i}>
             <h3 className="text-[0.7rem] tracking-[0.26em] text-[#0F1012]/60 mb-4">
@@ -184,7 +171,7 @@ export default function FooterSP() {
         ))}
       </div>
 
-      {/* SOCIAL */}
+      {/* SOCIAL ICONS */}
       <div className="relative z-10 flex justify-center gap-8 mb-14">
         <IconWrap innerRef={(el) => (socialRef.current[0] = el)}>
           <IconTwitter />
@@ -199,11 +186,12 @@ export default function FooterSP() {
         </IconWrap>
       </div>
 
-      {/* COPYRIGHT */}
-      <div className="relative z-10 text-center space-y-4">
+      {/* COPYRIGHT（★著作権 2段構成） */}
+      <div className="relative z-10 text-center space-y-3">
         <p className="text-[0.7rem] text-[#0F1012]/40 tracking-[0.12em]">
-          © {new Date().getFullYear()} LÜMIN — AUDIO DESIGN
+          © {new Date().getFullYear()} LÜMIN — All Rights Reserved.
         </p>
+
         <a
           href="https://gushikendesign.com/"
           target="_blank"
