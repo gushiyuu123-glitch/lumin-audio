@@ -1,14 +1,11 @@
 // src/sections/LuminHeadphoneHeroPC.jsx
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useCart } from "../contexts/CartContext";
 
 export default function LuminHeadphoneHeroPC() {
   const { addItem } = useCart();
 
-  /* ================================
-     COLOR VARIANTS
-  ================================ */
   const colors = [
     {
       key: "white",
@@ -39,47 +36,70 @@ export default function LuminHeadphoneHeroPC() {
     },
   ];
 
-  const [current, setCurrent] = useState(colors[1]); // default = black
+  const [current, setCurrent] = useState(colors[1]);
 
-  /* ================================
-     GSAP — 出現 & 呼吸
-  ================================ */
   const heroRef = useRef(null);
   const imgRef = useRef(null);
 
-  useEffect(() => {
-    if (!imgRef.current) return;
+  useLayoutEffect(() => {
+    const hero = heroRef.current;
+    const img = imgRef.current;
+    if (!hero || !img) return;
 
-// 出現（ぼやけ弱め・精密版）
-gsap.fromTo(
-  imgRef.current,
-  {
-    opacity: 0,
-    y: 26,         // ← 60 → 26 に弱めて“自然落下”の逆で登場
-  },
-  {
-    opacity: 1,
-    y: 0,
-    duration: 1.15,
-    ease: "power2.out",
-  }
-);
+    // ① 初期値は「必ず」ここで固定（Observerの外）
+    gsap.set(img, {
+      opacity: 0,
+      y: 40,
+      scale: 1.04,
+      filter: "blur(4px)",
+    });
 
-// 呼吸
-gsap.to(imgRef.current, {
-  y: -14,
-  duration: 6.8,
-  ease: "sine.inOut",
-  repeat: -1,
-  yoyo: true,
-});
+    let breathed = false;
 
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
 
-  }, [current]);
+        // ② フェードイン
+        gsap.to(img, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 1.55,
+          ease: "power3.out",
+          overwrite: "auto",
+        });
 
-  /* ================================
-     RENDER
-  ================================ */
+        // ③ 呼吸（1回だけ起動）
+        if (!breathed) {
+          breathed = true;
+          gsap.to(img, {
+            y: -16,
+            duration: 7.2,
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+            delay: 0.35,
+            overwrite: "auto",
+          });
+        }
+
+        io.disconnect();
+      },
+      {
+        // ← まず確実に動かしたいから “強すぎない値” にしてる
+        threshold: 0.25,
+        rootMargin: "0px 0px -8% 0px",
+      }
+    );
+
+    // 観測対象は hero じゃなく img にする（安定）
+    io.observe(img);
+
+    return () => io.disconnect();
+  }, [current.key]);
+
   return (
     <section
       id="headphone"
@@ -91,13 +111,9 @@ gsap.to(imgRef.current, {
         pt-[20vh] pb-[20vh]
       "
     >
-      {/* BG base gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f0f2f5]/50 to-[#f4f6f9]" />
-
-      {/* ultra fine noise */}
       <div className="absolute inset-0 bg-[url('/lumin/noise-fine.png')] opacity-[0.025] mix-blend-soft-light" />
 
-      {/* === TITLE BAND === */}
       <div className="relative z-10 mb-20 flex flex-col items-center text-center">
         <div className="w-[40%] h-[1px] bg-[#0F1012]/18 mb-6" />
         <p className="text-[0.92rem] tracking-[0.30em] text-[#0F1012]/60">
@@ -105,7 +121,6 @@ gsap.to(imgRef.current, {
         </p>
       </div>
 
-      {/* === IMAGE === */}
       <img
         ref={imgRef}
         key={current.key}
@@ -116,11 +131,9 @@ gsap.to(imgRef.current, {
           w-[62vw] max-w-[1150px]
           mb-24 select-none pointer-events-none
           drop-shadow-[0_46px_110px_rgba(0,0,0,0.12)]
-          transition-all duration-600
         "
       />
 
-      {/* === COLOR SELECTOR === */}
       <div className="relative z-20 flex gap-7 mb-12">
         {colors.map((c) => (
           <button
@@ -140,13 +153,12 @@ gsap.to(imgRef.current, {
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
+            aria-label={c.label}
           />
         ))}
       </div>
 
-      {/* === TEXT === */}
       <div className="relative z-20 w-full flex flex-col items-center mt-[6vh] pb-[10vh]">
-
         <h2 className="font-title-2 text-[2.5rem] tracking-[0.22em] text-[#0C0E11]/85 mb-4">
           {current.name}
         </h2>
@@ -167,7 +179,6 @@ gsap.to(imgRef.current, {
           送料無料
         </p>
 
-        {/* BUY BUTTON */}
         <button
           onClick={() =>
             addItem({

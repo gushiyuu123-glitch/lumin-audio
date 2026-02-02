@@ -30,56 +30,70 @@ export default function EarphoneHeroPC({
       short: "静けさの中の立体 — スタジオ級の空間解像",
     },
   ],
-
-  /* ←★ App.jsx から渡される “詳細ページ切り替えフック” */
   onSelect = () => {},
 }) {
   const heroRef = useRef(null);
   const imgRefs = useRef([]);
-  const cardRefs = useRef([]);
-
   const { addItem } = useCart();
 
   /* ================================================================
-        GSAP — 呼吸・ゆらぎ
+      GSAP + IntersectionObserver（最上質フェードイン）
   ================================================================= */
+  useEffect(() => {
+    if (!heroRef.current) return;
 
-useEffect(() => {
-  imgRefs.current.forEach((img, i) => {
-    if (!img) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
 
-    // 登場アニメーション（blur 完全排除）
-    gsap.fromTo(
-      img,
-      {
-        opacity: 0,
-        y: 26,                // ← 目に優しい登場位置
+        imgRefs.current.forEach((img, i) => {
+          if (!img) return;
+
+          /* ---- ① 初期値（薄膜 × 静か × 控えめ blur） ---- */
+          gsap.set(img, {
+            opacity: 0,
+            y: 42,
+            scale: 1.045,
+            filter: "blur(5px)",
+          });
+
+          /* ---- ② フェードイン（高級版） ---- */
+          gsap.to(img, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.55 + i * 0.23,
+            ease: "power3.out",
+          });
+
+          /* ---- ③ 呼吸（ゆっくり、密度がある動き） ---- */
+          gsap.to(img, {
+            y: -14,
+            duration: 6.8 + i * 0.4,
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+            delay: 0.4 + i * 0.22,
+          });
+        });
+
+        io.disconnect();
       },
       {
-        opacity: 1,
-        y: 0,
-        duration: 1.15 + i * 0.16,   // ← キレを出す自然速度
-        ease: "power2.out",
+        threshold: 0.52,
+        rootMargin: "0px 0px -18% 0px", // ← さらに遅発火で“静けさ”が増す
       }
     );
 
-    // 呼吸ゆらぎ（そのまま継続）
-    gsap.to(img, {
-      y: -18,
-      duration: 6.4 + i * 0.5,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-    });
-  });
-}, []);
+    io.observe(heroRef.current);
 
-
-
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section
-    id="earphone"
+      id="earphone"
       ref={heroRef}
       className="
         relative w-full min-h-screen 
@@ -88,48 +102,17 @@ useEffect(() => {
         flex flex-col items-center
         pt-[16vh]
         pb-[16vh]
-        
       "
     >
-      {/* ===== 背景白銀フィルム ===== */}
-      <div
-        aria-hidden
-        className="
-          absolute inset-0 
-          bg-gradient-to-b
-          from-[#ffffff]
-          via-[#f1f3f5]
-          to-[#f7f8fa]
-          opacity-[0.96]
-          pointer-events-none
-        "
-      />
-
-      {/* ===== ノイズ ===== */}
-      <div
-        aria-hidden
-        className="
-          absolute inset-0 opacity-[0.10]
-          bg-[url('/lumin/noise-fine.png')]
-          mix-blend-soft-light
-        "
-      />
-
-      {/* ===== TITLE ===== */}
+      {/* TITLE */}
       <div className="relative z-10 mb-24 flex flex-col items-center text-center">
         <div className="w-[44%] h-[1px] bg-[#111214]/15 mb-6" />
-        <p
-          className="
-            text-[0.9rem]
-            tracking-[0.32em]
-            text-[#0F1012]/50
-          "
-        >
+        <p className="text-[0.9rem] tracking-[0.32em] text-[#0F1012]/50">
           EARPHONE LINE — LÜMIN AIR
         </p>
       </div>
 
-      {/* ===== PRODUCTS ===== */}
+      {/* PRODUCTS */}
       <div
         className="
           relative z-10 grid grid-cols-3 gap-20
@@ -137,130 +120,101 @@ useEffect(() => {
         "
       >
         {models.map((m, i) => (
-         <div
-  key={i}
-  ref={(el) => (cardRefs.current[i] = el)}
-  className="
-    flex flex-col items-center text-center
-    pt-10 pb-16
-    px-6
-    rounded-3xl
-    transition-all duration-500
-  "
->
-{/* IMAGE（浮遊 強め） */}
-<img
-  ref={(el) => (imgRefs.current[i] = el)}
-  src={m.img}
-  alt={m.name}
-  className="
-    w-[22vw] max-w-[360px]
-    object-contain select-none pointer-events-none
-    drop-shadow-[0_48px_120px_rgba(0,0,0,0.20)]
-    mb-16              /* ← 余白を拡大 */
-    transition-all duration-500
-  "
-/>
+          <div
+            key={i}
+            className="flex flex-col items-center text-center pt-10 pb-16 px-6"
+          >
+            {/* IMAGE（初期状態：完全不可視） */}
+            <img
+              ref={(el) => (imgRefs.current[i] = el)}
+              src={m.img}
+              alt={m.name}
+              className="
+                opacity-0
+                translate-y-[42px]
+                blur-[5px]
+                w-[22vw] max-w-[360px]
+                object-contain pointer-events-none select-none
+                drop-shadow-[0_48px_120px_rgba(0,0,0,0.20)]
+                mb-16
+              "
+            />
 
-  {/* SHORT */}
-  <p className="text-[#111214]/55 text-[0.9rem] tracking-[0.20em] mb-4 leading-[1.8]">
-    {m.short}
-  </p>
+            {/* COPY */}
+            <p className="text-[#111214]/55 text-[0.9rem] tracking-[0.20em] mb-4 leading-[1.8]">
+              {m.short}
+            </p>
 
-  {/* NAME */}
-  <h3 className="font-title-2 text-[1.55rem] tracking-[0.12em] text-[#0A0B0D]/85 mb-2">
-    {m.name}
-  </h3>
+            <h3 className="font-title-2 text-[1.55rem] tracking-[0.12em] text-[#0A0B0D]/85 mb-2">
+              {m.name}
+            </h3>
 
-  {/* MODEL */}
-  <p className="text-[#111214]/45 text-[0.78rem] tracking-[0.22em] mb-1">
-    {m.model}
-  </p>
+            <p className="text-[#111214]/45 text-[0.78rem] tracking-[0.22em] mb-1">
+              {m.model}
+            </p>
 
-  {/* PRICE */}
-  <p className="text-[#0F1012]/75 text-[0.95rem] tracking-[0.08em] mb-4">
-    {m.price}
-  </p>
+            <p className="text-[#0F1012]/75 text-[0.95rem] tracking-[0.08em] mb-4">
+              {m.price}
+            </p>
 
-  {/* BUY BUTTON */}
-  <button
-    onClick={() =>
-      addItem({
-        name: m.name,
-        price: m.price,
-        image: m.img,
-        model: m.model,
-      })
-    }
-    className="
-      group
-      w-full max-w-[240px] py-3 rounded-xl
-      border border-black/[0.06]
-      bg-white/60 backdrop-blur-[5px]
-      text-[#0F0F10]/80
-      text-[0.85rem] tracking-[0.18em]
-      hover:bg-white/70 hover:border-black/[0.10]
-      hover:shadow-[0_12px_38px_rgba(0,0,0,0.06)]
-      transition-all duration-300
-    "
-  >
-    購入する
-  </button>
+            {/* BUY BUTTON */}
+            <button
+              onClick={() =>
+                addItem({
+                  name: m.name,
+                  price: m.price,
+                  image: m.img,
+                  model: m.model,
+                })
+              }
+              className="
+                group
+                w-full max-w-[240px] py-3 rounded-xl
+                border border-black/[0.06]
+                bg-white/60 backdrop-blur-[5px]
+                text-[#0F0F10]/80
+                text-[0.85rem] tracking-[0.18em]
+                hover:bg-white/70 hover:border-black/[0.10]
+                hover:shadow-[0_12px_38px_rgba(0,0,0,0.06)]
+                transition-all duration-300
+              "
+            >
+              購入する
+            </button>
 
-{/* MODEL OPEN BUTTON（控えめ版） */}
-<button
-  onClick={() => onSelect(m.model)}
-  className="
-    group relative
-    mt-8 px-9 py-3
-    rounded-full
-    border border-[#0E0F11]/10        /* ← 枠を薄めた */
-    bg-white/12 backdrop-blur-[3px]   /* ← 光・存在感を抑えた */
-    text-[0.72rem] tracking-[0.20em]  /* ← 少し詰めて静かに */
-    text-[#0E0F11]/55                 /* ← 主張弱め */
-    transition-all duration-400
-    hover:bg-white/18 hover:border-[#0E0F11]/15
-  "
->
-  {/* hover 光筋（弱め版） */}
-  <span
-    className="
-      absolute inset-0 rounded-full -z-10
-      bg-gradient-to-r from-transparent via-white/20 to-transparent
-      opacity-0 blur-[12px]
-      group-hover:opacity-60 group-hover:blur-[18px]
-      transition-all duration-500
-    "
-  />
-
-
-
-  音の輪郭を感じる
-</button>
-
-</div>
-
-
+            {/* DETAIL BUTTON */}
+            <button
+              onClick={() => onSelect(m.model)}
+              className="
+                group relative mt-8 px-9 py-3 rounded-full
+                border border-[#0E0F11]/10
+                bg-white/12 backdrop-blur-[3px]
+                text-[0.72rem] tracking-[0.20em] text-[#0E0F11]/55
+                transition-all duration-400
+                hover:bg-white/18 hover:border-[#0E0F11]/15
+              "
+            >
+              <span
+                className="
+                  absolute inset-0 rounded-full -z-10
+                  bg-gradient-to-r from-transparent via-white/20 to-transparent
+                  opacity-0 blur-[12px]
+                  group-hover:opacity-60 group-hover:blur-[18px]
+                  transition-all duration-500
+                "
+              />
+              音の輪郭を感じる
+            </button>
+          </div>
         ))}
+        
+      
       </div>
-
-  {/* ===== SERIES NOTES ===== */}
-<p
-  className="
-    mt-[12vh]
-    text-[#1A1C1F]/60      /* ← ★見える × ノイズに溶けない最適値 */
-    text-[0.9rem]
-    tracking-[0.20em]
-    leading-[2]
-    text-center
-    max-w-[900px]
-    px-10
-  "
->
-  すべてのモデルは「空気」「静けさ」「密度」という LÜMIN の音響思想に基づき、
-  本来の音が持つ美しさだけを丁寧に残すよう設計されています。
-</p>
-
+      {/* NOTES */}
+      <p className="mt-[12vh] text-[#1A1C1F]/60 text-[0.9rem] tracking-[0.20em] leading-[2] text-center max-w-[900px] px-10">
+        すべてのモデルは「空気」「静けさ」「密度」という LÜMIN の音響思想に基づき、
+        <br></br>本来の音が持つ美しさだけを丁寧に残すよう設計されています。
+      </p>
     </section>
   );
 }
