@@ -39,57 +39,61 @@ export default function EarphoneHeroPC({
   /* ================================================================
       GSAP + IntersectionObserver（最上質フェードイン）
   ================================================================= */
-  useEffect(() => {
-    if (!heroRef.current) return;
+useEffect(() => {
+  if (!heroRef.current) return;
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
+  const imgs = imgRefs.current;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
-        imgRefs.current.forEach((img, i) => {
-          if (!img) return;
+        const img = entry.target;
 
-          /* ---- ① 初期値（薄膜 × 静か × 控えめ blur） ---- */
-          gsap.set(img, {
+        gsap.fromTo(
+          img,
+          {
             opacity: 0,
             y: 42,
             scale: 1.045,
-            filter: "blur(5px)",
-          });
-
-          /* ---- ② フェードイン（高級版） ---- */
-          gsap.to(img, {
+            filter: "blur(4px)",
+          },
+          {
             opacity: 1,
             y: 0,
             scale: 1,
             filter: "blur(0px)",
-            duration: 1.55 + i * 0.23,
+            duration: 1.4,
             ease: "power3.out",
-          });
+          }
+        );
 
-          /* ---- ③ 呼吸（ゆっくり、密度がある動き） ---- */
-          gsap.to(img, {
-            y: -14,
-            duration: 6.8 + i * 0.4,
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true,
-            delay: 0.4 + i * 0.22,
-          });
+        gsap.to(img, {
+          y: -14,
+          duration: 7,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: 0.4,
         });
 
-        io.disconnect();
-      },
-      {
-        threshold: 0.52,
-        rootMargin: "0px 0px -18% 0px", // ← さらに遅発火で“静けさ”が増す
-      }
-    );
+        io.unobserve(img);
+      });
+    },
+    {
+      threshold: 0.15,
+      rootMargin: "-10% 0px -10% 0px",
+    }
+  );
 
-    io.observe(heroRef.current);
+  imgs.forEach((img) => {
+    if (img) io.observe(img);
+  });
 
-    return () => io.disconnect();
-  }, []);
+  return () => io.disconnect();
+}, []);
+
 
   return (
     <section
